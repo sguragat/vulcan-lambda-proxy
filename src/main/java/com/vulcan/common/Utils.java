@@ -1,0 +1,18 @@
+package com.vulcan.common;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+/**
+ * Created by sg on 29/07/2018.
+ */
+public class Utils {
+
+    public static String asJson(Object pojo, ObjectMapper objectMapper) {
+        try {
+            return objectMapper.writeValueAsString(pojo);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException(String.format("Failed to convert POJO (%s >> %s) into Json-String", pojo.getClass().getName(), pojo), e);
+        }
+    }
+}
