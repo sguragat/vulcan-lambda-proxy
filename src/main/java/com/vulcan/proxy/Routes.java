@@ -1,8 +1,9 @@
 package com.vulcan.proxy;
 
-import com.amazonaws.services.lambda.runtime.Context;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.vulcan.proxy.Routes.HttpMethod.*;
 
@@ -11,13 +12,10 @@ import static com.vulcan.proxy.Routes.HttpMethod.*;
  */
 public class Routes {
 
-    private static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
-
-    private static final String CONTENT_TYPE_X_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
-
     private final Map<HttpMethod, List<RouteTemplate>> routeTemplates = new HashMap<>();
 
     public Response handleRequest(Request request, Context context) {
+        context.getLogger().debug("REQUEST: {o}", request);
         HttpMethod httpMethod = HttpMethod.valueOf(request.getHttpMethod());
         List<RouteTemplate> routes = routeTemplates.get(httpMethod);
         for (RouteTemplate routeTemplate : routes) {
