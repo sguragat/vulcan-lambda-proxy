@@ -12,24 +12,24 @@ import java.util.Map;
 public class RequestBodyTest {
 
     @Test
-    public void getXFormEntity_with_1_key() {
+    public void getX3WFormEntity_with_1_key() {
         Request request = new Request();
         request.setBody("username=johndoe");
 
         // call method under test
-        Map entity = RequestBody.getXFormEntity(request, Map.class, new ObjectMapper());
+        Map entity = RequestBody.getX3WFormEntity(request, Map.class, new ObjectMapper());
 
         // assert
         Assert.assertEquals("johndoe", entity.get("username"));
     }
 
     @Test
-    public void getXFormEntity_with_2_key() {
+    public void getX3WFormEntity_with_2_key() {
         Request request = new Request();
         request.setBody("username=johndoe&password=A3ddj3w");
 
         // call method under test
-        Map entity = RequestBody.getXFormEntity(request, Map.class, new ObjectMapper());
+        Map entity = RequestBody.getX3WFormEntity(request, Map.class, new ObjectMapper());
 
         // assert
         Assert.assertEquals("johndoe", entity.get("username"));
@@ -37,24 +37,24 @@ public class RequestBodyTest {
     }
 
     @Test
-    public void getXFormEntity_with_1_key_and_no_value() {
+    public void getX3WFormEntity_with_1_key_and_no_value() {
         Request request = new Request();
         request.setBody("username=");
 
         // call method under test
-        Map entity = RequestBody.getXFormEntity(request, Map.class, new ObjectMapper());
+        Map entity = RequestBody.getX3WFormEntity(request, Map.class, new ObjectMapper());
 
         // assert
         Assert.assertEquals("", entity.get("username"));
     }
 
     @Test
-    public void getXFormEntity_with_1_key_and_no_value_and_another_key() {
+    public void getX3WFormEntity_with_1_key_and_no_value_and_another_key() {
         Request request = new Request();
         request.setBody("username=&password=A3ddj3w");
 
         // call method under test
-        Map entity = RequestBody.getXFormEntity(request, Map.class, new ObjectMapper());
+        Map entity = RequestBody.getX3WFormEntity(request, Map.class, new ObjectMapper());
 
         // assert
         Assert.assertEquals("", entity.get("username"));
@@ -62,12 +62,12 @@ public class RequestBodyTest {
     }
 
     @Test
-    public void getXFormEntity_with_1_key_and_1_key_and_no_value() {
+    public void getX3WFormEntity_with_1_key_and_1_key_and_no_value() {
         Request request = new Request();
         request.setBody("username=johndoe&password=");
 
         // call method under test
-        Map entity = RequestBody.getXFormEntity(request, Map.class, new ObjectMapper());
+        Map entity = RequestBody.getX3WFormEntity(request, Map.class, new ObjectMapper());
 
         // assert
         Assert.assertEquals("johndoe", entity.get("username"));

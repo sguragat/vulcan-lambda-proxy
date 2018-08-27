@@ -29,7 +29,7 @@ class RequestBody {
             case CONTENT_TYPE_APPLICATION_JSON:
                 return getJsonEntity(request, entityType, objectMapper);
             case CONTENT_TYPE_X_WWW_FORM_URLENCODED:
-                return getXFormEntity(request, entityType, objectMapper);
+                return getX3WFormEntity(request, entityType, objectMapper);
             default:
                 throw new IllegalStateException("Content-Type: " + contentType + " is not supported");
         }
@@ -47,7 +47,7 @@ class RequestBody {
         throw new IllegalStateException("getJsonEntityList not implemented yet");
     }
 
-    public static <E> E getXFormEntity(Request request, Class<E> entityType, ObjectMapper objectMapper) {
+    public static <E> E getX3WFormEntity(Request request, Class<E> entityType, ObjectMapper objectMapper) {
         Map<String, Object> entity = new HashMap<>();
         String body = request.getBody();
         int startIndex = 0;
