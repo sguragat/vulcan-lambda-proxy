@@ -32,10 +32,10 @@ public class Headers extends TypedMap {
     }
 
     public String host() {
-        return (String) get("Host");
+        return (String) get("host");
     }
 
     public String userAgent() {
-        return (String) get("User-Agent");
+        return (String) get("user-agent");
     }
 }

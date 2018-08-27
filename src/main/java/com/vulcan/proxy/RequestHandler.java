@@ -13,7 +13,9 @@ public abstract class RequestHandler implements com.amazonaws.services.lambda.ru
 
     @Override
     public Response handleRequest(Request request, com.amazonaws.services.lambda.runtime.Context c) {
+        request.lowercaseHeaders();
         Context context = new Context(c);
+        context.getLogger().debug("REQUEST: {o}", request);
         try {
             return getRoutes().handleRequest(request, context);
         } catch (Exception e) {

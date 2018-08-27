@@ -15,7 +15,6 @@ public class Routes {
     private final Map<HttpMethod, List<RouteTemplate>> routeTemplates = new HashMap<>();
 
     public Response handleRequest(Request request, Context context) {
-        context.getLogger().debug("REQUEST: {o}", request);
         HttpMethod httpMethod = HttpMethod.valueOf(request.getHttpMethod());
         List<RouteTemplate> routes = routeTemplates.get(httpMethod);
         for (RouteTemplate routeTemplate : routes) {

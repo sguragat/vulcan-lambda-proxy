@@ -35,7 +35,7 @@ class RequestBody {
         }
     }
 
-    public static <E> E getJsonEntity(Request request, Class<E> entityType, ObjectMapper objectMapper) {
+    static <E> E getJsonEntity(Request request, Class<E> entityType, ObjectMapper objectMapper) {
         try {
             return objectMapper.readValue(request.getBody(), entityType);
         } catch (IOException e) {
@@ -43,7 +43,7 @@ class RequestBody {
         }
     }
 
-    public static <E> List<E> getJsonEntityList(Request request, Class<E> entityType, ObjectMapper objectMapper) {
+    static <E> List<E> getJsonEntityList(Request request, Class<E> entityType, ObjectMapper objectMapper) {
         throw new IllegalStateException("getJsonEntityList not implemented yet");
     }
 
