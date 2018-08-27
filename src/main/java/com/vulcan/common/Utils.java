@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class Utils {
 
+    public final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     public static String asJson(Object pojo, ObjectMapper objectMapper) {
         return asJson(pojo, objectMapper, false);
     }

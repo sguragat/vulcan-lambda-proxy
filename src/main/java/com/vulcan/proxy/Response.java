@@ -68,10 +68,36 @@ public class Response extends HashMap<String, Object> {
                 .location(location);
     }
 
+    public static Builder badRequest() {
+        return def()
+                .status(400)
+                .noContent();
+    }
+
+    public static Builder badRequest(String message, ObjectMapper objectMapper) {
+        return badRequest(content(message), objectMapper);
+    }
+
+    private static Map<String, Object> content(String message) {
+        Map<String, Object> content = new HashMap<>();
+        content.put("message", message);
+        return content;
+    }
+
+    public static Builder badRequest(Object content, ObjectMapper objectMapper) {
+        return badRequest()
+                .body(content, objectMapper)
+                .contentType("application/json");
+    }
+
     public static Builder notFound() {
         return def()
                 .status(404)
                 .noContent();
+    }
+
+    public static Builder notFound(String message, ObjectMapper objectMapper) {
+        return notFound(content(message), objectMapper);
     }
 
     public static Builder notFound(Object content, ObjectMapper objectMapper) {
@@ -84,6 +110,10 @@ public class Response extends HashMap<String, Object> {
         return def()
                 .status(500)
                 .noContent();
+    }
+
+    public static Builder internalServerError(String message, ObjectMapper objectMapper) {
+        return internalServerError(content(message), objectMapper);
     }
 
     public static Builder internalServerError(Object content, ObjectMapper objectMapper) {

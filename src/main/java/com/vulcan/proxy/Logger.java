@@ -12,7 +12,7 @@ import java.io.StringWriter;
  */
 public class Logger {
 
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    private final static ObjectMapper OBJECT_MAPPER = Utils.OBJECT_MAPPER;
 
     private final static Object[] NO_ARGS = new Object[0];
 
@@ -98,6 +98,9 @@ public class Logger {
                 .append(level.name())
                 .append(" ").append(template);
         if (args.length == 0) {
+            if (cause != null) {
+                sb.append(System.lineSeparator()).append(getStackTrace(cause));
+            }
             // if no arguments are passed, then return template as is with no change
             return sb.toString();
         }
@@ -173,15 +176,6 @@ public class Logger {
     public static Logger get() {
         return THREAD_LOCAL_LOGGER.get();
     }
-
-//    public static String json(Object o) {
-//        Utils.asJson(o, ObjectMapper, pre)
-//        try {
-//            return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(o);
-//        } catch (JsonProcessingException e) {
-//            th
-//        }
-//    }
 
     enum Level {
         // be careful here as the order matters, see isLevelEnabled(..) method
