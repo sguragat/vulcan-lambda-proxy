@@ -38,4 +38,8 @@ public class Headers extends TypedMap {
     public String userAgent() {
         return (String) get("user-agent");
     }
+
+    public String authorization() {
+        return (String) get("authorization");
+    }
 }
