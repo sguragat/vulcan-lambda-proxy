@@ -7,9 +7,18 @@ public abstract class RequestHandler implements com.amazonaws.services.lambda.ru
 
     protected abstract Routes getRoutes();
 
+    protected ExceptionHandler getExceptionHandler() {
+        return ExceptionHandler.INSTANCE;
+    }
+
     @Override
-    public Response handleRequest(Request request, com.amazonaws.services.lambda.runtime.Context context) {
-        return getRoutes().handleRequest(request, new Context(context));
+    public Response handleRequest(Request request, com.amazonaws.services.lambda.runtime.Context c) {
+        Context context = new Context(c);
+        try {
+            return getRoutes().handleRequest(request, context);
+        } catch (Exception e) {
+            return getExceptionHandler().handle(e, context);
+        }
     }
 
 }

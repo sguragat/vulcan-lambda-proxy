@@ -80,6 +80,18 @@ public class Response extends HashMap<String, Object> {
                 .contentType("application/json");
     }
 
+    public static Builder internalServerError() {
+        return def()
+                .status(500)
+                .noContent();
+    }
+
+    public static Builder internalServerError(Object content, ObjectMapper objectMapper) {
+        return internalServerError()
+                .body(content, objectMapper)
+                .contentType("application/json");
+    }
+
     public static class Builder {
 
         private Integer status;
