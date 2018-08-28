@@ -90,6 +90,22 @@ public class Response extends HashMap<String, Object> {
                 .contentType("application/json");
     }
 
+    public static Builder unauthorized() {
+        return def()
+                .status(401)
+                .noContent();
+    }
+
+    public static Builder unauthorized(String message, ObjectMapper objectMapper) {
+        return unauthorized(content(message), objectMapper);
+    }
+
+    public static Builder unauthorized(Object content, ObjectMapper objectMapper) {
+        return unauthorized()
+                .body(content, objectMapper)
+                .contentType("application/json");
+    }
+
     public static Builder notFound() {
         return def()
                 .status(404)
@@ -171,6 +187,11 @@ public class Response extends HashMap<String, Object> {
 
         public Builder location(String value) {
             header("Location", value);
+            return this;
+        }
+
+        public Builder authenticationScheme(String authenticationScheme) {
+            header("WWW-Authenticate", authenticationScheme);
             return this;
         }
 
