@@ -18,7 +18,22 @@ public class TypedMap extends HashMap<String, Object> {
         super(map);
     }
 
-    public String getOptionalString(String key) {
+    public UUID getOptionalUUID(String key) {
+        Object value = get(key);
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof UUID) {
+            return (UUID) value;
+        }
+        try {
+            return UUID.fromString(getString(key));
+        } catch (IllegalStateException e) {
+            throw new IllegalStateException("The value of key '%s' cannot be converted to UUID", e);
+        }
+    }
+
+    public String getString(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -29,7 +44,7 @@ public class TypedMap extends HashMap<String, Object> {
         return value.toString();
     }
 
-    public Integer getOptionalInteger(String key) {
+    public Integer getInteger(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -44,7 +59,7 @@ public class TypedMap extends HashMap<String, Object> {
         }
     }
 
-    public Long getOptionalLong(String key) {
+    public Long getLong(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -59,7 +74,7 @@ public class TypedMap extends HashMap<String, Object> {
         }
     }
 
-    public Double getOptionalDouble(String key) {
+    public Double getDouble(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -74,7 +89,7 @@ public class TypedMap extends HashMap<String, Object> {
         }
     }
 
-    public Float getOptionalFloat(String key) {
+    public Float getFloat(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -89,7 +104,7 @@ public class TypedMap extends HashMap<String, Object> {
         }
     }
 
-    public Boolean getOptionalBoolean(String key) {
+    public Boolean getBoolean(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -106,7 +121,7 @@ public class TypedMap extends HashMap<String, Object> {
         throw new IllegalStateException("The value of key '%s' cannot be converted to Boolean");
     }
 
-    public BigDecimal getOptionalBigDecimal(String key) {
+    public BigDecimal getBigDecimal(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -121,7 +136,7 @@ public class TypedMap extends HashMap<String, Object> {
         }
     }
 
-    public BigInteger getOptionalBigInteger(String key) {
+    public BigInteger getBigInteger(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -136,22 +151,7 @@ public class TypedMap extends HashMap<String, Object> {
         }
     }
 
-    public UUID getOptionalUUID(String key) {
-        Object value = get(key);
-        if (value == null) {
-            return null;
-        }
-        if (value instanceof UUID) {
-            return (UUID) value;
-        }
-        try {
-            return UUID.fromString(getString(key));
-        } catch (IllegalStateException e) {
-            throw new IllegalStateException("The value of key '%s' cannot be converted to UUID", e);
-        }
-    }
-
-    public Map<String, Object> getOptionalMap(String key) {
+    public Map<String, Object> getMap(String key) {
         Object value = get(key);
         if (value == null) {
             return null;
@@ -160,65 +160,5 @@ public class TypedMap extends HashMap<String, Object> {
             return (Map<String, Object>) value;
         }
         throw new IllegalStateException("The value of key '%s' cannot be converted to Map");
-    }
-
-    public String getString(String key) {
-        String value = getOptionalString(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public Integer getInteger(String key) {
-        Integer value = getOptionalInteger(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public Long getLong(String key) {
-        Long value = getOptionalLong(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public Double getDouble(String key) {
-        Double value = getOptionalDouble(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public Float getFloat(String key) {
-        Float value = getOptionalFloat(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public Boolean getBoolean(String key) {
-        Boolean value = getOptionalBoolean(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public BigDecimal getBigDecimal(String key) {
-        BigDecimal value = getOptionalBigDecimal(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public BigInteger getBigInteger(String key) {
-        BigInteger value = getOptionalBigInteger(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    public Map<String, Object> getMap(String key) {
-        Map<String, Object> value = getOptionalMap(key);
-        checkNotNull(key, value);
-        return value;
-    }
-
-    private void checkNotNull(String key, Object value) {
-        if (value == null) {
-            throw new IllegalStateException(String.format("Required key '%s' does not exist or has null value", key));
-        }
     }
 }
