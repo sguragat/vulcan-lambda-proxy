@@ -122,7 +122,7 @@ public class Logger {
                 sb.replace(characterIndex, characterIndex + 2, sArgument);
                 characterIndex += sArgument.length(); // fast forward to skip scanning argument value
                 nextCharacterIndex = characterIndex + 1;
-            } else if (sb.charAt(characterIndex) == '{' && sb.charAt(nextCharacterIndex) == 'o' && sb.charAt(nextNextCharacterIndex) == '}') { // placeholder found
+            } else if (sb.charAt(characterIndex) == '{' && sb.charAt(nextCharacterIndex) == 'O' && sb.charAt(nextNextCharacterIndex) == '}') { // placeholder found
                 // check too many placeholders
                 if (++placeholderCount > args.length) {
                     throw new IllegalStateException(String.format("Too many placeholders, but not enough args ( template = %s, args-count = %s )", template, args.length));

@@ -254,7 +254,7 @@ public class LoggerTest {
         pojo.put("message", "Hello");
 
         // call method under test
-        String message = replacePlaceHolders(DEBUG, "Hi Jack! {o}", new Object[] { pojo });
+        String message = replacePlaceHolders(DEBUG, "Hi Jack! {O}", new Object[] { pojo });
 
         // assert
         Assert.assertEquals("DEBUG Hi Jack! {\"message\":\"Hello\"}", message);
@@ -266,7 +266,7 @@ public class LoggerTest {
         pojo.put("message", "Hello");
 
         // call method under test
-        String message = replacePlaceHolders(DEBUG, "Hi Jack! {o} {o}", new Object[] { pojo, pojo });
+        String message = replacePlaceHolders(DEBUG, "Hi Jack! {O} {O}", new Object[] { pojo, pojo });
 
         // assert
         Assert.assertEquals("DEBUG Hi Jack! {\"message\":\"Hello\"} {\"message\":\"Hello\"}", message);
