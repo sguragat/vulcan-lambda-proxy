@@ -68,6 +68,27 @@ public class Response extends HashMap<String, Object> {
                 .location(location);
     }
 
+    public static Builder movedPermanently(String location) {
+        return def()
+                .status(301)
+                .noContent()
+                .location(location);
+    }
+
+    public static Builder found(String location) {
+        return def()
+                .status(302)
+                .noContent()
+                .location(location);
+    }
+
+    public static Builder seeOther(String location) {
+        return def()
+                .status(303)
+                .noContent()
+                .location(location);
+    }
+
     public static Builder badRequest() {
         return def()
                 .status(400)
