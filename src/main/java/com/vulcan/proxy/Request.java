@@ -52,10 +52,10 @@ public class Request extends HashMap<String, Object> {
         return (Headers) map;
     }
 
-    private TypedMap getOrCreate(String key) {
+    private TypedMap getOrCreateTypedMap(String key) {
         Map<String, Object> map = (Map<String, Object>) get(key);
         if (map == null || (!(map instanceof TypedMap))) {
-            map = new TypedMap();
+            map = (map == null) ? new TypedMap() : new TypedMap(map);
             put(key, map);
         }
         return (TypedMap) map;
@@ -63,17 +63,17 @@ public class Request extends HashMap<String, Object> {
 
     @JsonIgnore
     public TypedMap getQueryStringParameters() {
-        return getOrCreate("queryStringParameters");
+        return getOrCreateTypedMap("queryStringParameters");
     }
 
     @JsonIgnore
     public TypedMap getPathParameters() {
-        return getOrCreate("pathParameters");
+        return getOrCreateTypedMap("pathParameters");
     }
 
     @JsonIgnore
     public TypedMap getStageVariables() {
-        return getOrCreate("stageVariables");
+        return getOrCreateTypedMap("stageVariables");
     }
 
     @JsonIgnore
