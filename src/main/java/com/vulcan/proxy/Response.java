@@ -68,6 +68,13 @@ public class Response extends HashMap<String, Object> {
                 .location(location);
     }
 
+    public static Builder created(Object content, String location, ObjectMapper objectMapper) {
+        return def()
+                .status(201)
+                .body(content, objectMapper)
+                .location(location);
+    }
+
     public static Builder movedPermanently(String location) {
         return def()
                 .status(301)
