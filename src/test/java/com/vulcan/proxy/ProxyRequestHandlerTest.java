@@ -27,16 +27,23 @@ public class ProxyRequestHandlerTest {
 
     private RequestHandler lambdaHandler() {
         Routes routes = new Routes.Builder()
-                .get("/product/{id}", (request, context) -> {
-//                    context.getLogger().log("Dude, you rock!!! Product id : " + request.getPathParameters().getInteger("id"));
-                    return Response.ok().build();
-                })
+                .get("/product/{id}", new DummyRoute())
                 .build();
 
         return new RequestHandler() {
             @Override
+            public Response handleRequest(Request request, Context context) {
+                return Response.ok().build();
+            }
+
+            @Override
             protected Routes getRoutes() {
                 return routes;
+            }
+
+            @Override
+            protected Object createContextState() {
+                return new Object();
             }
         };
     }

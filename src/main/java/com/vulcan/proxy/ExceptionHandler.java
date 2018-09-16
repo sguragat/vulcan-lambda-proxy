@@ -13,7 +13,7 @@ public interface ExceptionHandler {
 
         @Override
         public Response handle(Exception e, Context context) {
-            context.getLogger().error(e, "Request failed");
+            Logger.error(e, "Request failed (500)");
             return Response.internalServerError("Internal server error", Utils.OBJECT_MAPPER).build();
         }
     }

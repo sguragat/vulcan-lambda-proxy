@@ -22,61 +22,13 @@ public class Logger {
 
     private Context context;
 
-    public Logger(Context context, String level) {
+    Logger(Context context, String level) {
         this(context, Level.valueOf(level));
     }
 
-    public Logger(Context context, Level level) {
+    Logger(Context context, Level level) {
         this.context = context;
         this.level = level;
-    }
-
-    public void error(String message, Object... args) {
-        error(NO_EXCEPTION, message, args);
-    }
-
-    public void error(String message, Exception e) {
-        error(e, message, NO_ARGS);
-    }
-
-    public void error(Exception e, String message, Object... args) {
-        log(Level.ERROR, e, message, args);
-    }
-
-    public void warn(String message, Object... args) {
-        warn(NO_EXCEPTION, message, args);
-    }
-
-    public void warn(String message, Exception e) {
-        warn(e, message, NO_ARGS);
-    }
-
-    public void warn(Exception e, String message, Object... args) {
-        log(Level.WARN, e, message, args);
-    }
-
-    public void info(String message, Object... args) {
-        info(NO_EXCEPTION, message, args);
-    }
-
-    public void info(String message, Exception e) {
-        info(e, message, NO_ARGS);
-    }
-
-    public void info(Exception e, String message, Object... args) {
-        log(Level.INFO, e, message, args);
-    }
-
-    public void debug(String message, Object... args) {
-        debug(NO_EXCEPTION, message, args);
-    }
-
-    public void debug(String message, Exception e) {
-        debug(e, message, NO_ARGS);
-    }
-
-    public void debug(Exception e, String message, Object... args) {
-        log(Level.DEBUG, e, message, args);
     }
 
     private void log(Level level, Exception e, String message, Object... args) {
@@ -173,8 +125,56 @@ public class Logger {
         return logger;
     }
 
-    public static Logger get() {
-        return THREAD_LOCAL_LOGGER.get();
+    public static void error(String message, Object... args) {
+        error(NO_EXCEPTION, message, args);
+    }
+
+    public static void error(String message, Exception e) {
+        error(e, message, NO_ARGS);
+    }
+
+    public static void error(Exception e, String message, Object... args) {
+        THREAD_LOCAL_LOGGER.get().log(Level.ERROR, e, message, args);
+    }
+
+    public static void warn(String message, Object... args) {
+        warn(NO_EXCEPTION, message, args);
+    }
+
+    public static void warn(String message, Exception e) {
+        warn(e, message, NO_ARGS);
+    }
+
+    public static void warn(Exception e, String message, Object... args) {
+        THREAD_LOCAL_LOGGER.get().log(Level.WARN, e, message, args);
+    }
+
+    public static void info(String message, Object... args) {
+        info(NO_EXCEPTION, message, args);
+    }
+
+    public static void info(String message, Exception e) {
+        info(e, message, NO_ARGS);
+    }
+
+    public static void info(Exception e, String message, Object... args) {
+        THREAD_LOCAL_LOGGER.get().log(Level.INFO, e, message, args);
+    }
+
+    public static void debug(String message, Object... args) {
+        debug(NO_EXCEPTION, message, args);
+    }
+
+    public static void debug(String message, Exception e) {
+        debug(e, message, NO_ARGS);
+    }
+
+    public static void debug(Exception e, String message, Object... args) {
+        THREAD_LOCAL_LOGGER.get().log(Level.DEBUG, e, message, args);
+    }
+
+    public static void detach() {
+        THREAD_LOCAL_LOGGER.set(null);
     }
 
     enum Level {

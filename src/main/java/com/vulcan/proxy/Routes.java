@@ -14,7 +14,8 @@ public class Routes {
 
     private final Map<HttpMethod, List<RouteTemplate>> routeTemplates = new HashMap<>();
 
-    public Response handleRequest(Request request, Context context) {
+    public Response handleRequest(Context context) {
+        Request request = context.getRequest();
         HttpMethod httpMethod = HttpMethod.valueOf(request.getHttpMethod());
         List<RouteTemplate> routes = routeTemplates.get(httpMethod);
         for (RouteTemplate routeTemplate : routes) {
@@ -22,7 +23,7 @@ public class Routes {
                 continue; // check next route
             }
             // route found
-            return routeTemplate.getRoute().handleRequest(request, context);
+            return routeTemplate.getRoute().handleRequest(context);
         }
 
         return RESOURCE_NOT_FOUND_RESPONSE;

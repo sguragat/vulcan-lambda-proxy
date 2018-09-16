@@ -13,7 +13,12 @@ import java.util.Map;
  */
 public class Request extends HashMap<String, Object> {
 
-    public void lowercaseHeaders() {
+    public void enforceLowercaseHeaders() {
+        /**
+         * When first time getHeaders() is called, the original Map is
+         * being replaced Headers class which naturally works only with lower-case
+         * header values.
+         */
         getHeaders();
     }
 

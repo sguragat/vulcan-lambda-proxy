@@ -10,23 +10,23 @@ public class RoutesTest {
     @Test
     public void builder_with_single_route() {
         new Routes.Builder()
-                .get("/product", (request, context) -> null)
+                .get("/product", new DummyRoute())
                 .build();
     }
 
     @Test
     public void builder_with_many_routes_of_same_method() {
         new Routes.Builder()
-                .get("/product/collection", (request, context) -> null)
-                .get("/product/{id}", (request, context) -> null)
+                .get("/product/collection", new DummyRoute())
+                .get("/product/{id}", new DummyRoute())
                 .build();
     }
 
     @Test
     public void builder_with_many_routes_of_different_methods() {
         new Routes.Builder()
-                .post("/product", (request, context) -> null)
-                .get("/product/{id}", (request, context) -> null)
+                .post("/product", new DummyRoute())
+                .get("/product/{id}", new DummyRoute())
                 .build();
     }
 }

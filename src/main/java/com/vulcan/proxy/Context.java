@@ -5,21 +5,24 @@ package com.vulcan.proxy;
  */
 public class Context {
 
-    private Logger logger;
+    private final Request request;
 
-    public Context(com.amazonaws.services.lambda.runtime.Context context) {
-        logger = Logger.init(context, getLevel());
+    private final Object state;
+
+    public Context(Request request, Object state, com.amazonaws.services.lambda.runtime.Context context) {
+        this.request = request;
+        this.state = state;
     }
 
-    public Logger getLogger() {
-        return logger;
+    public <E> E getState() {
+        return (E) state;
     }
 
-    private Logger.Level getLevel() {
-        String env = System.getenv("VULCAN_LOG_LEVEL");
-        if (env == null) {
-            return Logger.Level.ERROR;
-        }
-        return Logger.Level.valueOf(env);
+    public <E> E getState(Class<E> type) {
+        return (E) state;
+    }
+
+    public Request getRequest() {
+        return request;
     }
 }

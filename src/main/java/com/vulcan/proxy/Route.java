@@ -6,5 +6,5 @@ package com.vulcan.proxy;
 @FunctionalInterface
 public interface Route {
 
-    Response handleRequest(Request request, Context context);
+    Response handleRequest(Context context);
 }

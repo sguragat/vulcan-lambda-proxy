@@ -61,18 +61,22 @@ public class Response extends HashMap<String, Object> {
                 .contentType("application/json");
     }
 
-    public static Builder created(String location) {
+    public static Builder created() {
         return def()
                 .status(201)
-                .noContent()
-                .location(location);
+                .noContent();
+    }
+
+    public static Builder created(String location) {
+        return created().location(location);
+    }
+
+    public static Builder created(Object content, ObjectMapper objectMapper) {
+        return created().body(content, objectMapper);
     }
 
     public static Builder created(Object content, String location, ObjectMapper objectMapper) {
-        return def()
-                .status(201)
-                .body(content, objectMapper)
-                .location(location);
+        return created(content, objectMapper).location(location);
     }
 
     public static Builder movedPermanently(String location) {
