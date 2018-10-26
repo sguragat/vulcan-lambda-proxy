@@ -1,8 +1,7 @@
 package com.vulcan.proxy;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vulcan.common.TypedMap;
+import com.vulcan.converter.BodyConverter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,32 +21,26 @@ public class Request extends HashMap<String, Object> {
         getHeaders();
     }
 
-    @JsonIgnore
     public String getResource() {
         return (String) get("resource");
     }
 
-    @JsonIgnore
     public String getPath() {
         return (String) get("path");
     }
 
-    @JsonIgnore
     public void setPath(String path) {
         put("path", path);
     }
 
-    @JsonIgnore
     public String getHttpMethod() {
         return (String) get("httpMethod");
     }
 
-    @JsonIgnore
     public void setHttpMethod(String httpMethod) {
         put("httpMethod", httpMethod);
     }
 
-    @JsonIgnore
     public Headers getHeaders() {
         Map<String, Object> map = (Map<String, Object>) get("headers");
         if (map == null || (!(map instanceof Headers))) {
@@ -66,47 +59,42 @@ public class Request extends HashMap<String, Object> {
         return (TypedMap) map;
     }
 
-    @JsonIgnore
     public TypedMap getQueryStringParameters() {
         return getOrCreateTypedMap("queryStringParameters");
     }
 
-    @JsonIgnore
     public TypedMap getPathParameters() {
         return getOrCreateTypedMap("pathParameters");
     }
 
-    @JsonIgnore
     public TypedMap getStageVariables() {
         return getOrCreateTypedMap("stageVariables");
     }
 
-    @JsonIgnore
     public RequestContext getRequestContext() {
         return new RequestContext((Map<String, Object>) get("requestContext"));
     }
 
-    @JsonIgnore
     public String getBody() {
         return (String) get("body");
     }
 
-    @JsonIgnore
     public void setBody(String body) {
         put("body", body);
     }
 
-    @JsonIgnore
-    public <E> E getEntity(Class<E> entityType, ObjectMapper objectMapper) {
-        return RequestBody.getEntity(this, entityType, objectMapper);
+    public Map<String, Object> getBodyMap(BodyConverter bodyConverter) {
+        return RequestBody.getMap(this, bodyConverter);
     }
 
-    @JsonIgnore
-    public <E> List<E> getEntityList(Class<E> entityType, ObjectMapper objectMapper) {
-        return RequestBody.getJsonEntityList(this, entityType, objectMapper);
+    public <E> E getBodyEntity(BodyConverter bodyConverter) {
+        return RequestBody.getEntity(this, bodyConverter);
     }
 
-    @JsonIgnore
+    public <E> List<E> getBodyList(BodyConverter bodyConverter) {
+        return RequestBody.getList(this, bodyConverter);
+    }
+
     public boolean isBase64Encoded() {
         return (boolean) get("getBase64Encoded");
     }

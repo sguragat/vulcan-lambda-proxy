@@ -1,8 +1,8 @@
 package com.vulcan.proxy;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vulcan.common.Utils;
+import com.vulcan.converter.JSONObjectConverter;
+import com.vulcan.converter.JsonConverter;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -12,11 +12,11 @@ import java.io.StringWriter;
  */
 public class Logger {
 
-    private final static ObjectMapper OBJECT_MAPPER = Utils.OBJECT_MAPPER;
+    private static final JsonConverter DEFAULT_JSON_CONVERTER = new JSONObjectConverter();
 
-    private final static Object[] NO_ARGS = new Object[0];
+    private static final Object[] NO_ARGS = new Object[0];
 
-    private final static Exception NO_EXCEPTION = null;
+    private static final Exception NO_EXCEPTION = null;
 
     private Level level;
 
@@ -81,7 +81,8 @@ public class Logger {
                 }
                 // replace placeholder with argument
                 Object argument = args[argumentIndex++]; // read current arg & move index to next arg
-                String sArgument = argument != null ? Utils.asJson(argument, OBJECT_MAPPER) : "null";
+
+                String sArgument = (argument != null) ? DEFAULT_JSON_CONVERTER.objectToJson(argument) : "null";
                 sb.replace(characterIndex, characterIndex + 3, sArgument);
                 characterIndex += sArgument.length(); // fast forward to skip scanning argument value
                 nextCharacterIndex = characterIndex + 1;

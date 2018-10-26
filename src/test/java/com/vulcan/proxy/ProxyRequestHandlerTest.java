@@ -4,6 +4,9 @@ import com.amazonaws.services.lambda.runtime.ClientContext;
 import com.amazonaws.services.lambda.runtime.CognitoIdentity;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vulcan.converter.BodyConverter;
+import com.vulcan.converter.JacksonConverter;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,6 +14,10 @@ import org.junit.Test;
  * Created by sg on 28/07/2018.
  */
 public class ProxyRequestHandlerTest {
+
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    private BodyConverter bodyConverter = new JacksonConverter(objectMapper, true);
 
     @Test
     public void handleRequest() {
@@ -31,6 +38,7 @@ public class ProxyRequestHandlerTest {
                 .build();
 
         return new RequestHandler() {
+
             @Override
             public Response handleRequest(Request request, Context context) {
                 return Response.ok().build();
@@ -44,6 +52,11 @@ public class ProxyRequestHandlerTest {
             @Override
             protected Object createContextState() {
                 return new Object();
+            }
+
+            @Override
+            protected BodyConverter getBodyConverter() {
+                return bodyConverter;
             }
         };
     }

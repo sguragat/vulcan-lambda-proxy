@@ -1,8 +1,5 @@
 package com.vulcan.proxy;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +43,9 @@ public class Response extends HashMap<String, Object> {
     }
 
     private static Builder def() {
-        return new Builder().base64Encoded(false);
+        return new Builder()
+                .contentType("application/json")
+                .base64Encoded(false);
     }
 
     public static Builder ok() {
@@ -55,9 +54,9 @@ public class Response extends HashMap<String, Object> {
                 .noContent();
     }
 
-    public static Builder ok(Object content, ObjectMapper objectMapper) {
+    public static Builder ok(Object body) {
         return ok()
-                .body(content, objectMapper)
+                .body(body)
                 .contentType("application/json");
     }
 
@@ -71,12 +70,12 @@ public class Response extends HashMap<String, Object> {
         return created().location(location);
     }
 
-    public static Builder created(Object content, ObjectMapper objectMapper) {
-        return created().body(content, objectMapper);
+    public static Builder created(Object body) {
+        return created().body(body);
     }
 
-    public static Builder created(Object content, String location, ObjectMapper objectMapper) {
-        return created(content, objectMapper).location(location);
+    public static Builder created(Object body, String location) {
+        return created(body).location(location);
     }
 
     public static Builder movedPermanently(String location) {
@@ -106,20 +105,18 @@ public class Response extends HashMap<String, Object> {
                 .noContent();
     }
 
-    public static Builder badRequest(String message, ObjectMapper objectMapper) {
-        return badRequest(content(message), objectMapper);
+    public static Builder badRequest(String message) {
+        return badRequest(body(message));
     }
 
-    private static Map<String, Object> content(String message) {
+    private static Map<String, Object> body(String message) {
         Map<String, Object> content = new HashMap<>();
         content.put("message", message);
         return content;
     }
 
-    public static Builder badRequest(Object content, ObjectMapper objectMapper) {
-        return badRequest()
-                .body(content, objectMapper)
-                .contentType("application/json");
+    public static Builder badRequest(Object body) {
+        return badRequest().body(body);
     }
 
     public static Builder unauthorized() {
@@ -128,13 +125,13 @@ public class Response extends HashMap<String, Object> {
                 .noContent();
     }
 
-    public static Builder unauthorized(String message, ObjectMapper objectMapper) {
-        return unauthorized(content(message), objectMapper);
+    public static Builder unauthorized(String message) {
+        return unauthorized(body(message));
     }
 
-    public static Builder unauthorized(Object content, ObjectMapper objectMapper) {
+    public static Builder unauthorized(Object body) {
         return unauthorized()
-                .body(content, objectMapper)
+                .body(body)
                 .contentType("application/json");
     }
 
@@ -144,13 +141,13 @@ public class Response extends HashMap<String, Object> {
                 .noContent();
     }
 
-    public static Builder notFound(String message, ObjectMapper objectMapper) {
-        return notFound(content(message), objectMapper);
+    public static Builder notFound(String message) {
+        return notFound(body(message));
     }
 
-    public static Builder notFound(Object content, ObjectMapper objectMapper) {
+    public static Builder notFound(Object body) {
         return notFound()
-                .body(content, objectMapper)
+                .body(body)
                 .contentType("application/json");
     }
 
@@ -160,13 +157,13 @@ public class Response extends HashMap<String, Object> {
                 .noContent();
     }
 
-    public static Builder internalServerError(String message, ObjectMapper objectMapper) {
-        return internalServerError(content(message), objectMapper);
+    public static Builder internalServerError(String message) {
+        return internalServerError(body(message));
     }
 
-    public static Builder internalServerError(Object content, ObjectMapper objectMapper) {
+    public static Builder internalServerError(Object body) {
         return internalServerError()
-                .body(content, objectMapper)
+                .body(body)
                 .contentType("application/json");
     }
 
@@ -176,7 +173,7 @@ public class Response extends HashMap<String, Object> {
 
         private Map<String, Object> headers;
 
-        private String body;
+        private Object body;
 
         private Boolean base64Encoded = false;
 
@@ -193,17 +190,13 @@ public class Response extends HashMap<String, Object> {
             return this;
         }
 
-        public Builder body(Object content, ObjectMapper objectMapper) {
-            try {
-                body = objectMapper.writeValueAsString(content);
-            } catch (JsonProcessingException e) {
-                throw new IllegalStateException("Failed to convert Pojo into Body(Json-String)", e);
-            }
+        public Builder body(Object body) {
+            this.body = body;
             return this;
         }
 
         public Builder noContent() {
-            body = "";
+            body = null;
             return this;
         }
 
@@ -232,7 +225,15 @@ public class Response extends HashMap<String, Object> {
             response.setStatusCode(status);
             response.setBase64Encoded(base64Encoded);
             response.setHeaders(headers);
-            response.setBody(body);
+            response.setBody("");
+            return response;
+        }
+
+        public Response build(Context context) {
+            Response response = build();
+            if (body != null) {
+                response.setBody(context.getBodyConverter().objectToJson(body));
+            }
             return response;
         }
     }

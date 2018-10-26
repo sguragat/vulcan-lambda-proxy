@@ -24,6 +24,7 @@ import static com.vulcan.proxy.Logger.replacePlaceHolders;
 public class LoggerTest {
 
     private static final boolean MESSAGE_LOGGED = true;
+
     private static final boolean MESSAGE_NOT_LOGGED = false;
 
     private List<String> logHistory;

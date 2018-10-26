@@ -1,9 +1,6 @@
 package com.vulcan.proxy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.vulcan.proxy.Routes.HttpMethod.*;
 
@@ -12,7 +9,14 @@ import static com.vulcan.proxy.Routes.HttpMethod.*;
  */
 public class Routes {
 
-    private final Map<HttpMethod, List<RouteTemplate>> routeTemplates = new HashMap<>();
+    private final Set<String> UNIQUE_ENDPOINTS = new HashSet<>();
+
+    private final Map<HttpMethod, List<RouteTemplate>> routeTemplates = new HashMap<HttpMethod, List<RouteTemplate>>() {{
+        put(HttpMethod.POST, new LinkedList<>());
+        put(HttpMethod.PUT, new LinkedList<>());
+        put(HttpMethod.GET, new LinkedList<>());
+        put(HttpMethod.DELETE, new LinkedList<>());
+    }};
 
     public Response handleRequest(Context context) {
         Request request = context.getRequest();
@@ -30,23 +34,14 @@ public class Routes {
     }
 
     private void register(HttpMethod httpMethod, String path, Route route) {
+        String endpoint = httpMethod.name() + path;
+        if (UNIQUE_ENDPOINTS.contains(endpoint)) {
+            throw new IllegalStateException(String.format("Duplicate route detected %s %s", httpMethod, path));
+        }
+
         List<RouteTemplate> routes = routeTemplates.get(httpMethod);
-        if (routes == null) {
-            routes = new ArrayList<>();
-            routeTemplates.put(httpMethod, routes);
-        }
-        // add first root
-        if (routes.size() == 0) {
-            routes.add(new RouteTemplate(path, route));
-            return;
-        }
-        // other routes exists, so check for duplicates
-        for (RouteTemplate routeTemplate : new ArrayList<>(routes)) {
-            if (routeTemplate.getPath().equals(path)) {
-                throw new IllegalStateException(String.format("Duplicate routes not allowed ( route %s %s )", httpMethod, path));
-            }
-            routes.add(new RouteTemplate(path, route));
-        }
+        routes.add(new RouteTemplate(path, route));
+        UNIQUE_ENDPOINTS.add(endpoint);
     }
 
     private static final Response RESOURCE_NOT_FOUND_RESPONSE = Response.notFound().build();
