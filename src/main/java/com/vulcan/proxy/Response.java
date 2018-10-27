@@ -201,17 +201,23 @@ public class Response extends HashMap<String, Object> {
         }
 
         public Builder contentType(String value) {
-            header("Content-Type", value);
+            if (value != null) {
+                header("Content-Type", value);
+            }
             return this;
         }
 
         public Builder location(String value) {
-            header("Location", value);
+            if (value != null) {
+                header("Location", value);
+            }
             return this;
         }
 
         public Builder authenticationScheme(String authenticationScheme) {
-            header("WWW-Authenticate", authenticationScheme);
+            if (authenticationScheme != null) {
+                header("WWW-Authenticate", authenticationScheme);
+            }
             return this;
         }
 
