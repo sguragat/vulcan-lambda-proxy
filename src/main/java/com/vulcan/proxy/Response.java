@@ -48,9 +48,12 @@ public class Response extends HashMap<String, Object> {
                 .base64Encoded(false);
     }
 
+    public static Builder status(int status) {
+        return def().status(status);
+    }
+
     public static Builder ok() {
-        return def()
-                .status(200)
+        return status(200)
                 .noContent();
     }
 
@@ -61,8 +64,7 @@ public class Response extends HashMap<String, Object> {
     }
 
     public static Builder created() {
-        return def()
-                .status(201)
+        return status(201)
                 .noContent();
     }
 
@@ -79,29 +81,25 @@ public class Response extends HashMap<String, Object> {
     }
 
     public static Builder movedPermanently(String location) {
-        return def()
-                .status(301)
+        return status(301)
                 .noContent()
                 .location(location);
     }
 
     public static Builder found(String location) {
-        return def()
-                .status(302)
+        return status(302)
                 .noContent()
                 .location(location);
     }
 
     public static Builder seeOther(String location) {
-        return def()
-                .status(303)
+        return status(303)
                 .noContent()
                 .location(location);
     }
 
     public static Builder badRequest() {
-        return def()
-                .status(400)
+        return status(400)
                 .noContent();
     }
 
@@ -120,8 +118,7 @@ public class Response extends HashMap<String, Object> {
     }
 
     public static Builder unauthorized() {
-        return def()
-                .status(401)
+        return status(401)
                 .noContent();
     }
 
@@ -136,8 +133,7 @@ public class Response extends HashMap<String, Object> {
     }
 
     public static Builder notFound() {
-        return def()
-                .status(404)
+        return status(404)
                 .noContent();
     }
 
@@ -152,8 +148,7 @@ public class Response extends HashMap<String, Object> {
     }
 
     public static Builder internalServerError() {
-        return def()
-                .status(500)
+        return status(500)
                 .noContent();
     }
 
