@@ -52,7 +52,7 @@ class RequestBody {
         try {
             return bodyConverter.jsonToObject(request.getBody());
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to read Entity from request body (application/json)");
+            throw new IllegalStateException("Failed to read Entity from request body (application/json)", e);
         }
     }
 
@@ -60,7 +60,7 @@ class RequestBody {
         try {
             return bodyConverter.formToObject(request.getBody());
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to read Entity from request body (application/x-www-form-urlencoded)");
+            throw new IllegalStateException("Failed to read Entity from request body (application/x-www-form-urlencoded)", e);
         }
     }
 
@@ -68,7 +68,7 @@ class RequestBody {
         try {
             return bodyConverter.jsonToMap(request.getBody());
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to read Map from request body (application/json)");
+            throw new IllegalStateException("Failed to read Map from request body (application/json)", e);
         }
     }
 
@@ -76,7 +76,7 @@ class RequestBody {
         try {
             return bodyConverter.formToMap(request.getBody());
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to read Map from request body (application/x-www-form-urlencoded)");
+            throw new IllegalStateException("Failed to read Map from request body (application/x-www-form-urlencoded)", e);
         }
     }
 

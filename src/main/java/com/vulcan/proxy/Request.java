@@ -87,12 +87,24 @@ public class Request extends HashMap<String, Object> {
         return RequestBody.getMap(this, bodyConverter);
     }
 
+    public Map<String, Object> getBodyMap(Context context) {
+        return RequestBody.getMap(this, context.getBodyConverter());
+    }
+
+    public <E> E getBodyEntity(Context context) {
+        return RequestBody.getEntity(this, context.getBodyConverter());
+    }
+
     public <E> E getBodyEntity(BodyConverter bodyConverter) {
         return RequestBody.getEntity(this, bodyConverter);
     }
 
     public <E> List<E> getBodyList(BodyConverter bodyConverter) {
         return RequestBody.getList(this, bodyConverter);
+    }
+
+    public <E> List<E> getBodyList(Context context) {
+        return RequestBody.getList(this, context.getBodyConverter());
     }
 
     public boolean isBase64Encoded() {

@@ -19,7 +19,7 @@ public class RequestBodyTest {
 
     private BodyConverter pojoConverter = new JacksonConverter(
             objectMapper.readerFor(Pojo.class),
-            objectMapper.writer().withDefaultPrettyPrinter());
+            objectMapper.writer());
 
     @Test
     public void getEntity_asMap() {

@@ -1,5 +1,6 @@
 package com.vulcan.proxy;
 
+import com.vulcan.common.Envars;
 import com.vulcan.converter.BodyConverter;
 import com.vulcan.converter.JSONObjectConverter;
 
@@ -46,10 +47,6 @@ public abstract class RequestHandler implements com.amazonaws.services.lambda.ru
     }
 
     private static Logger.Level getLogLevel() {
-        String env = System.getenv("VULCAN_LOG_LEVEL");
-        if (env == null) {
-            return Logger.Level.ERROR;
-        }
-        return Logger.Level.valueOf(env);
+        return Logger.Level.valueOf(Envars.getLogLevel());
     }
 }
