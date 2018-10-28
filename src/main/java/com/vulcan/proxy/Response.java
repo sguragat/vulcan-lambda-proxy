@@ -1,5 +1,7 @@
 package com.vulcan.proxy;
 
+import com.vulcan.converter.BodyConverter;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -231,13 +233,16 @@ public class Response extends HashMap<String, Object> {
         }
 
         public Response build(Context context) {
+            return build(context.getBodyConverter());
+        }
+
+        public Response build(BodyConverter bodyConverter) {
             Response response = build();
             if (body != null) {
-                response.setBody(context.getBodyConverter().objectToJson(body));
+                response.setBody(bodyConverter.objectToJson(body));
             }
             return response;
         }
     }
-
 }
 
