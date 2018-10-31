@@ -15,7 +15,7 @@ public class Context {
 
     private BodyConverter bodyConverter;
 
-    private Context() {
+    protected Context() {
     }
 
     public <E> E getState() {
